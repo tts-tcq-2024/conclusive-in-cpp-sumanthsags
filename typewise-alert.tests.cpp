@@ -12,6 +12,12 @@ TEST(TypeWiseAlertTestSuite,PassiveCoolingHighTempToController)
   batteryChar1.coolingType = PASSIVE_COOLING;
   checkAndAlert(TO_CONTROLLER,batteryChar1,38);
 }
+TEST(TypeWiseAlertTestSuite,PassiveCoolingNormalTempToController) 
+{
+  BatteryCharacter batteryChar1;
+  batteryChar1.coolingType = PASSIVE_COOLING;
+  checkAndAlert(TO_CONTROLLER,batteryChar1,30);
+}
 
 TEST(TypeWiseAlertTestSuite,PassiveCoolingLowTempToEmail) 
 {
