@@ -1,5 +1,6 @@
 #include "typewise-alert.h"
 #include <stdio.h>
+#include <unordered_map>
 
 BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   if(value < lowerLimit) {
@@ -11,15 +12,22 @@ BreachType inferBreach(double value, double lowerLimit, double upperLimit) {
   return NORMAL;
 }
 
-const coolingLimits = {
-  PASSIVE_COOLING: { lowerLimit: 0, upperLimit: 35 },
-  HI_ACTIVE_COOLING: { lowerLimit: 0, upperLimit: 45 },
-  MED_ACTIVE_COOLING: { lowerLimit: 0, upperLimit: 40 }
+std::unordered_map<CoolingType, std::pair<int, int>> coolingLimits = {
+  {PASSIVE_COOLING, {0, 35}},
+  {HI_ACTIVE_COOLING, {0, 45}},
+  {MED_ACTIVE_COOLING, {0, 40}}
 };
 
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC) 
 {
-  const { lowerLimit, upperLimit } = coolingLimits[coolingType];
+  int lowerLimit = 0;
+  int upperLimit = 0;
+  
+  if (coolingLimits.find(coolingType) != coolingLimits.end()) 
+  {
+    std::tie(lowerLimit, upperLimit) = coolingLimits[coolingType];
+  }
+  
   return inferBreach(temperatureInC, lowerLimit, upperLimit);
 }
 
